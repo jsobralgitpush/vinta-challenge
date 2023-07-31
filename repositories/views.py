@@ -19,6 +19,7 @@ def commit_list_view(request):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def repository_create_view(request):
+    repo_name = request.data.get('name')
     user = request.user
     social_auth = user.social_auth.get(provider='github')
     access_token = social_auth.extra_data['access_token']
