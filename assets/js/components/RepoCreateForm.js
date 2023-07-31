@@ -32,7 +32,7 @@ renderField.propTypes = {
 
 const RepoCreateForm = (props) => {
   const {
-    successMessage, handleSubmit, pristine, submitting,
+    successMessage, errorMessage, handleSubmit, pristine, submitting,
   } = props;
   return (
     <div>
@@ -40,6 +40,12 @@ const RepoCreateForm = (props) => {
         && (
           <div className="alert alert-success" role="alert">
             Repository added successfully!
+          </div>
+        )}
+      {errorMessage
+        && (
+          <div className="alert alert-danger" role="alert">
+            {errorMessage}
           </div>
         )}
       <form onSubmit={handleSubmit}>
@@ -69,6 +75,7 @@ RepoCreateForm.propTypes = {
   pristine: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   successMessage: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
 };
 
 const validate = (values) => {
