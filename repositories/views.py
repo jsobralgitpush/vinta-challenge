@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from repositories.tasks import fetch_and_store_commits 
 from githubmonitor.api.github import RepositoryService
 
 from .models import Commit
@@ -28,6 +29,7 @@ def repository_create_view(request):
         serializer = RepositorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        fetch_and_store_commits.delay(user.id, repo_name)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response({'error': 'Repository does not exists.'}, status=status.HTTP_404_NOT_FOUND)
