@@ -6,16 +6,18 @@ class Repository:
 
 class RepositoryService:
     @staticmethod
-    def fetch_by_user(username):
+    def fetch_by_user(access_token, username):
         url = f'https://api.github.com/users/{username}/repos'
-        response = requests.get(url)
+        headers = {'Authorization': f"token {access_token}"}
+        response = requests.get(url, headers=headers)
         repositories = [Repository(repo_data) for repo_data in response.json()]
         return repositories
     
     @staticmethod
-    def fetch_by_repo_name(username, repo_name):
+    def fetch_by_repo_name(access_token, username, repo_name):
         url = f'https://api.github.com/repos/{username}/{repo_name}'
-        response = requests.get(url)
+        headers = {'Authorization': f"token {access_token}"}
+        response = requests.get(url, headers=headers)
         return Repository(response.json())
 
     @staticmethod
