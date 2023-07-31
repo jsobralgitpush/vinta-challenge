@@ -6,7 +6,7 @@ class Repository:
 
 class RepositoryService:
     @staticmethod
-    def fetch(username):
+    def fetch_by_user(username):
         url = f'https://api.github.com/users/{username}/repos'
         response = requests.get(url)
         repositories = [Repository(repo_data) for repo_data in response.json()]
