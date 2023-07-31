@@ -17,3 +17,10 @@ class RepositoryService:
         url = f'https://api.github.com/repos/{username}/{repo_name}'
         response = requests.get(url)
         return Repository(response.json())
+
+    @staticmethod
+    def fetch_by_authenticated_user(access_token):
+        url = 'https://api.github.com/user/repos'
+        headers = {'Authorization': f"token {access_token}"}
+        response = requests.get(url, headers=headers)
+        return [Repository(repo_data) for repo_data in response.json()]
