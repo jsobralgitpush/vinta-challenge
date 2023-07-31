@@ -26,3 +26,11 @@ class RepositoryService:
         headers = {'Authorization': f"token {access_token}"}
         response = requests.get(url, headers=headers)
         return [Repository(repo_data) for repo_data in response.json()]
+    
+    @staticmethod
+    def fetch_repo_commits(access_token, username, repo_name, since_date):
+        url = f'https://api.github.com/repos/{username}/{repo_name}/commits'
+        headers = {'Authorization': f"token {access_token}"}
+        params = {'since': since_date}
+        response = requests.get(url, headers=headers, params=params)
+        return response.json()  # list of commits
