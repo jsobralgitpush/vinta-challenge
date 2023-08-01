@@ -6,8 +6,10 @@ from githubmonitor.api.github import RepositoryService
 from .models import Commit
 from .serializers import CommitSerializer, RepositorySerializer
 
-
-class CommitListView(APIView):
+class BaseView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+class CommitListView(BaseView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -15,8 +17,7 @@ class CommitListView(APIView):
         serializer = CommitSerializer(commits, many=True)
         return Response(serializer.data)
 
-
-class RepositoryCreateView(APIView):
+class RepositoryCreateView(BaseView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
