@@ -9,3 +9,8 @@ export const getCommitsSuccess = commits => ({
   type: types.GET_COMMITS_SUCCESS,
   payload: commits,
 });
+
+export const getReposSuccess = repos => ({
+  type: types.GET_REPOS_SUCCESS,
+  payload: repos,
+})
