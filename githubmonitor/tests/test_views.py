@@ -57,3 +57,14 @@ class GithubMonitorTest(TestCase):
             response = self.client.post(reverse('repositories:repositories-create'), data=json.dumps(post_data), content_type='application/json')
 
             self.assertEqual(response.status_code, status_code)
+        
+        mock_fetch.return_value = (500, []) 
+
+        post_data = {
+            'name': self.repository.name,
+        }
+
+        response = self.client.post(reverse('repositories:repositories-create'), data=json.dumps(post_data), content_type='application/json')
+
+        self.assertEqual(response.status_code, 500)
+        self.assertEqual(response.data['error'], 'Unknown error.')
