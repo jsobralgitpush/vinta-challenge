@@ -68,3 +68,4 @@ class GithubMonitorTest(TestCase):
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.data['error'], 'Unknown error.')
+        
