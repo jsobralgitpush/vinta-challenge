@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Commit
+from .models import Commit, Repository
 from .serializers import CommitSerializer, RepositorySerializer
 
 
@@ -14,6 +14,12 @@ def commit_list_view(request):
     serializer = CommitSerializer(commits, many=True)
     return Response(serializer.data)
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def repository_list_view(request):
+    repositories = Repository.objects.all()
+    serializer = RepositorySerializer(repositories, many=True)
+    return Response(serializer.data)
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
