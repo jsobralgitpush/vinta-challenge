@@ -10,7 +10,6 @@ class BaseView(APIView):
     permission_classes = [IsAuthenticated]
     
 class CommitListView(BaseView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         commits = Commit.objects.all()
@@ -18,7 +17,6 @@ class CommitListView(BaseView):
         return Response(serializer.data)
 
 class RepositoryCreateView(BaseView):
-    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         repo_name = request.data.get('name')
