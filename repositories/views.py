@@ -4,10 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from repositories.tasks import fetch_and_store_commits 
 from githubmonitor.api.github import RepositoryService
-
 from .models import Commit
 from .serializers import CommitSerializer, RepositorySerializer
-
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -16,7 +14,6 @@ def commit_list_view(request):
     serializer = CommitSerializer(commits, many=True)
     return Response(serializer.data)
 
-
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def repository_create_view(request):
@@ -24,12 +21,20 @@ def repository_create_view(request):
     user = request.user
     social_auth = user.social_auth.get(provider='github')
     access_token = social_auth.extra_data['access_token']
-    repositories = RepositoryService.fetch_by_authenticated_user(access_token)
-    if any(repo.data['name'] == repo_name  for repo in repositories):
+    status_code, repositories = RepositoryService.fetch_by_authenticated_user(access_token)
+    
+    if status_code in [401, 403]:
+        return Response({'error': 'Unauthorized or forbidden.'}, status=status_code)
+    elif status_code == 422:
+        return Response({'error': 'Unprocessable Entity.'}, status=status_code)
+    elif status_code not in [200, 304]:
+        return Response({'error': 'Unknown error.'}, status=status_code)
+    
+    if any(repo.data['name'] == repo_name for repo in repositories):
         serializer = RepositorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         fetch_and_store_commits.delay(user.id, repo_name)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response({'error': 'Repository does not exists.'}, status=status.HTTP_404_NOT_FOUND)
+    
+    return Response({'error': 'Repository does not exist.'}, status=status.HTTP_404_NOT_FOUND)
