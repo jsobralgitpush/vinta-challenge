@@ -12,7 +12,7 @@ class RepositoryService:
         response = requests.get(url, headers=headers)
         repositories = [Repository(repo_data) for repo_data in response.json()]
         return response.status_code, repositories
-    
+
     @staticmethod
     def fetch_by_repo_name(access_token, username, repo_name):
         url = f'https://api.github.com/repos/{username}/{repo_name}'
