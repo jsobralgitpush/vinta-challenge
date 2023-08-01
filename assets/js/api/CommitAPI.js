@@ -10,7 +10,7 @@ export const getCommits = () => axios.get(`/api/commits/`)
     store.dispatch(getCommitsSuccess({...response.data}));
   });
 
-export const createRepository = (values, headers, formDispatch) => axios.post('/api/repositories/', values, {headers})
+export const createRepository = (values, headers, formDispatch) => axios.post('/api/repositories/create', values, {headers})
   .then((response) => {
     store.dispatch(createRepositorySuccess(response.data, true));
     formDispatch(reset('repoCreate'));
