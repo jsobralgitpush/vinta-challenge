@@ -5,17 +5,20 @@ from rest_framework.response import Response
 from githubmonitor.api.github import RepositoryService
 from .models import Commit, CommitFilter
 from .serializers import CommitSerializer, RepositorySerializer
+from rest_framework.pagination import PageNumberPagination
 
 class BaseView(APIView):
     permission_classes = [IsAuthenticated]
     
 class CommitListView(BaseView):
 
-   def get(self, request):
+    def get(self, request):
         queryset = Commit.objects.all()
         filters = CommitFilter(request.GET, queryset=queryset)
-        serializer = CommitSerializer(filters.qs, many=True)
-        return Response(serializer.data)
+        paginator = PageNumberPagination()
+        context = paginator.paginate_queryset(filters.qs, request)
+        serializer = CommitSerializer(context, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 class RepositoryCreateView(BaseView):
 
