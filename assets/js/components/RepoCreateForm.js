@@ -48,7 +48,7 @@ const RepoCreateForm = (props) => {
             {errorMessage}
           </div>
         )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} data-testid="create-repo-form">
         <div className="form-row">
           <div className="col-10">
             <Field
