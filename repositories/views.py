@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from githubmonitor.api.github import RepositoryService
-from .models import Commit
+from .models import Commit, CommitFilter
 from .serializers import CommitSerializer, RepositorySerializer
 
 class BaseView(APIView):
@@ -11,9 +11,10 @@ class BaseView(APIView):
     
 class CommitListView(BaseView):
 
-    def get(self, request):
-        commits = Commit.objects.all()
-        serializer = CommitSerializer(commits, many=True)
+   def get(self, request):
+        queryset = Commit.objects.all()
+        filters = CommitFilter(request.GET, queryset=queryset)
+        serializer = CommitSerializer(filters.qs, many=True)
         return Response(serializer.data)
 
 class RepositoryCreateView(BaseView):
