@@ -7,7 +7,7 @@ import {
 
 export const getCommits = () => axios.get(`/api/commits/`)
   .then((response) => {
-    store.dispatch(getCommitsSuccess({...response.data}));
+    store.dispatch(getCommitsSuccess({...response.data.results}));
   });
 
 export const createRepository = (values, headers, formDispatch) => axios.post('/api/repositories/', values, {headers})
