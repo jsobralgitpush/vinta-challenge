@@ -27,6 +27,37 @@ class GithubMonitorTest(TestCase):
         self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]['message'], commit2.message)
         self.assertEqual(response.data[1]['message'], commit1.message)
+    
+    def test_commit_list_view_with_filter(self):
+        commit1 = Commit.objects.create(
+            author="John",
+            message='Commit 1', 
+            date=timezone.now(), 
+            repository=self.repository
+        )
+        commit2 = Commit.objects.create(
+            author="Jane",
+            message='Commit 2', 
+            date=timezone.now(), 
+            repository=self.repository
+        )
+        
+        response = self.client.get(reverse('repositories:commits-list'), {'author': 'John'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['message'], commit1.message)
+
+        other_repository = Repository.objects.create(name='Other repository')
+        commit3 = Commit.objects.create(
+            author="John",
+            message='Commit 3', 
+            date=timezone.now(), 
+            repository=other_repository
+        )
+        response = self.client.get(reverse('repositories:commits-list'), {'repository': other_repository.id})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['message'], commit3.message)
 
 
     @patch('githubmonitor.api.github.RepositoryService.fetch_by_authenticated_user')
