@@ -10,6 +10,7 @@ ENV PATH="/home/user/.local/bin:${PATH}"
 WORKDIR /app
 ADD requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install django-filter
 
 COPY --chown=user:user . /app
 
