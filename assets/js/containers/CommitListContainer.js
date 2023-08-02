@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as commitAPI from '../api/CommitAPI';
 import CommitList from '../components/CommitList';
+import PaginationComponent from '../components/utils/PaginationComponent';
 
 class CommitListContainer extends React.Component {
   componentDidMount() {
@@ -14,6 +15,14 @@ class CommitListContainer extends React.Component {
     return (
       <div>
         <CommitList commits={commits} />
+
+        <PaginationComponent
+          totalItems={commits.length}
+          currentPage={1}
+          previousPage={'www.google.com.br'}
+          nextPage={'www.google.com.br'}
+          onPageChange={commitAPI.getCommits()}
+        />
       </div>
     );
   }
