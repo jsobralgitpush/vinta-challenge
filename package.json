@@ -5,13 +5,16 @@
   "scripts": {
     "dev": "webpack --config webpack.config.js --watch",
     "lint": "eslint assets",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "jest": {
     "setupFilesAfterEnv": [
       "./assets/js/jest.setup.js"
     ],
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "assets/js/**/*.{js,jsx}"
+    ]
   },
   "homepage": "https://github.com/vintasoftware/github-monitor#readme",
   "dependencies": {
