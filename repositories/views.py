@@ -25,10 +25,7 @@ class RepositoryCreateView(BaseView):
 
     def post(self, request):
         repo_name = request.data.get('name')
-        user = request.user
-        social_auth = user.social_auth.get(provider='github')
-        access_token = social_auth.extra_data['access_token']
-        status_code, repositories = RepositoryService.fetch_by_authenticated_user(access_token)
+        status_code, repositories = RepositoryService.fetch_by_authenticated_user()
 
         if status_code in [401, 403]:
             return Response({'error': 'Unauthorized or forbidden.'}, status=status_code)
