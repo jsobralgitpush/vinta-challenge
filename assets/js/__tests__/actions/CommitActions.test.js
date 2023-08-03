@@ -1,4 +1,3 @@
-
 import * as actions from '../../actions/CommitActions';
 import * as types from '../../actions/ActionTypes';
 
@@ -15,11 +14,12 @@ describe('CommitActions', () => {
 
   it('should create an action to get commits', () => {
     const mockCommits = [{ id: 1, message: 'Test commit' }];
+    const mockPageData = { currentPage: 1, totalItems: 10 };
     const expectedAction = {
       type: types.GET_COMMITS_SUCCESS,
-      payload: mockCommits,
+      payload: {commits: mockCommits, pageData: mockPageData},
     }
-    expect(actions.getCommitsSuccess(mockCommits)).toEqual(expectedAction);
+    expect(actions.getCommitsSuccess(mockCommits, mockPageData)).toEqual(expectedAction);
   });
 
   it('should create an action for repository creation error', () => {
