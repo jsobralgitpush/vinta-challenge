@@ -44,9 +44,9 @@ class RepositoryService:
         return response.status_code, repositories
     
     @staticmethod
-    def fetch_repo_commits(username, repo_name):
+    def fetch_repo_commits(username, repo_name, params=None):
         url = f'https://api.github.com/repos/{username}/{repo_name}/commits'
-        response = requests.get(url, headers=RepositoryService().__get_headers(), params={})
+        response = requests.get(url, headers=RepositoryService().__get_headers(), params=params)
         commits = [Commit(commit_data) for commit_data in response.json()]
         return response.status_code, commits
     
