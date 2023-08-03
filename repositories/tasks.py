@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 
 
 @app.task(name='repositories.tasks.fetch_and_store_commits')
-def fetch_and_store_commits(access_token, username, repo_id):
+def fetch_and_store_commits(username, repo_id):
     repository = Repository.objects.get(id=repo_id)
-    status_code, commits = RepositoryService.fetch_repo_commits(access_token, username, repository.name)
+    status_code, commits = RepositoryService.fetch_repo_commits(username, repository.name)
 
     if status_code == 200:
 
