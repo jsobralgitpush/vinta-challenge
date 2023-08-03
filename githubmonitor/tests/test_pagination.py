@@ -15,7 +15,7 @@ class CustomPageNumberPaginationTestCase(TestCase):
 
         for i in range(50):  
             Commit.objects.create(
-              author="John",
+              author="Pedro",
               message=f'Commit {i}', 
               date=timezone.now(), 
               repository=self.repository
