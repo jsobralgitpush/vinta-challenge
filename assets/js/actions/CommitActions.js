@@ -9,3 +9,8 @@ export const getCommitsSuccess = commits => ({
   type: types.GET_COMMITS_SUCCESS,
   payload: commits,
 });
+
+export const createRepositoryError = errorMessage => ({
+  type: types.CREATE_REPOSITORY_ERROR,
+  payload: {errorMessage},
+});

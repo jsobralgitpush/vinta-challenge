@@ -1,4 +1,5 @@
 from django.db import models
+import django_filters
 
 
 class Repository(models.Model):
@@ -26,3 +27,11 @@ class Commit(models.Model):
 
     class Meta:
         ordering = ('-date',)
+
+class CommitFilter(django_filters.FilterSet):
+    author = django_filters.CharFilter(lookup_expr='icontains')
+    repository = django_filters.NumberFilter()
+
+    class Meta:
+        model = Commit
+        fields = ['author', 'repository']
