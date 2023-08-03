@@ -41,6 +41,7 @@ class RepositoryCreateView(BaseView):
             serializer = RepositorySerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            fetch_and_store_commits.delay(access_token, user.username, serializer.data['id'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response({'error': 'Repository does not exist.'}, status=status.HTTP_404_NOT_FOUND)
