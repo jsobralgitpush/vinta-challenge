@@ -8,7 +8,8 @@ from datetime import datetime, timedelta
 @app.task(name='repositories.tasks.fetch_and_store_commits')
 def fetch_and_store_commits(username, repo_id):
     repository = Repository.objects.get(id=repo_id)
-    status_code, commits = RepositoryService.fetch_repo_commits(username, repository.name)
+    since_timestamp = (datetime.now() - timedelta(days=30)).isoformat()
+    status_code, commits = RepositoryService.fetch_repo_commits(username, repository.name, params={'since': since_timestamp})
 
     if status_code == 200:
 
