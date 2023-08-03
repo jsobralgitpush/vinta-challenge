@@ -9,7 +9,7 @@ class RepositoryServiceTest(TestCase):
         url = 'https://api.github.com/users/test_user/repos'
         mock.get(url, json=[{'id': 1, 'name': 'repo1'}, {'id': 2, 'name': 'repo2'}])
 
-        status_code, result = RepositoryService.fetch_by_user('dummy_token', 'test_user')
+        status_code, result = RepositoryService.fetch_by_user('test_user')
         self.assertEqual(status_code, 200)  
         self.assertEqual(len(result), 2)
         self.assertEqual(result[0].data['name'], 'repo1')
@@ -20,7 +20,7 @@ class RepositoryServiceTest(TestCase):
         url = 'https://api.github.com/repos/test_user/test_repo'
         mock.get(url, json={'id': 1, 'name': 'test_repo'})
 
-        status_code, result = RepositoryService.fetch_by_repo_name('dummy_token', 'test_user', 'test_repo')
+        status_code, result = RepositoryService.fetch_by_repo_name('test_user', 'test_repo')
         self.assertEqual(status_code, 200)  
         self.assertEqual(result.data['name'], 'test_repo')
 
@@ -29,7 +29,7 @@ class RepositoryServiceTest(TestCase):
         url = 'https://api.github.com/user/repos'
         mock.get(url, json=[{'id': 1, 'name': 'repo1'}, {'id': 2, 'name': 'repo2'}])
 
-        status_code, result = RepositoryService.fetch_by_authenticated_user('dummy_token')
+        status_code, result = RepositoryService.fetch_by_authenticated_user()
         self.assertEqual(status_code, 200) 
         self.assertEqual(len(result), 2)
         self.assertEqual(result[0].data['name'], 'repo1')
