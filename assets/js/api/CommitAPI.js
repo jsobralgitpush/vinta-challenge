@@ -5,9 +5,10 @@ import {
   createRepositorySuccess, getCommitsSuccess, createRepositoryError
 } from '../actions/CommitActions';
 
-export const getCommits = () => axios.get(`/api/commits/`)
+export const getCommits = (url) => axios.get(url)
   .then((response) => {
-    store.dispatch(getCommitsSuccess({...response.data.results}));
+    const { results, ...pageData } = response.data;
+    store.dispatch(getCommitsSuccess(results, pageData));
   });
 
 export const createRepository = (values, headers, formDispatch) => axios.post('/api/repositories/', values, {headers})
