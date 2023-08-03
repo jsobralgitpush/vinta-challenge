@@ -33,7 +33,7 @@ class RepositoryCreateView(BaseView):
         elif status_code not in [200, 304]:
             return Response({'error': 'Unknown error.'}, status=status_code)
 
-        if any(repo.data['name'] == repo_name for repo in repositories):
+        if any(repo.data['name'].lower() == repo_name.lower() for repo in repositories):
             serializer = RepositorySerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
