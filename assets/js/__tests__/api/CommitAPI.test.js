@@ -23,7 +23,7 @@ describe('Commit test', () => {
     const mockResponse = { data: { someData: 'data' } };
     axios.get.mockResolvedValue(mockResponse);
 
-    await getCommits();
+    await getCommits('/api/commits/');
 
     expect(axios.get).toHaveBeenCalledWith(`/api/commits/`);
     expect(store.dispatch).toHaveBeenCalledWith(getCommitsSuccess({...mockResponse.data}));
