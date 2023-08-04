@@ -16,8 +16,6 @@ class GithubMonitorTest(TestCase):
         self.repository = Repository.objects.create(name=self.ex_repo_data['name'])
         self.user = User.objects.create_user(username='test', password='test')
         self.client.login(username='test', password='test')
-        self.user_social_auth = UserSocialAuth.objects.create(user=self.user, provider='github', extra_data={'access_token': 'fake_token'})
-
 
     def test_commit_list_view(self):
         commit1 = Commit.objects.create(message='Commit 1', date=timezone.now(), repository=self.repository)
@@ -44,8 +42,8 @@ class GithubMonitorTest(TestCase):
         
         response = self.client.get(reverse('repositories:commits-list'), {'author': 'John'})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['message'], commit1.message)
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['message'], commit1.message)
 
         other_repository = Repository.objects.create(name='Other repository')
         commit3 = Commit.objects.create(
@@ -56,8 +54,8 @@ class GithubMonitorTest(TestCase):
         )
         response = self.client.get(reverse('repositories:commits-list'), {'repository': other_repository.id})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['message'], commit3.message)
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['message'], commit3.message)
 
     def test_commit_list_view_with_pagination(self):
         commits = [
