@@ -38,7 +38,7 @@ describe('Commit test', () => {
 
     await createRepository(mockValues, mockHeaders, jest.fn());
 
-    expect(axios.post).toHaveBeenCalledWith('/api/repositories/create', mockValues, {headers: mockHeaders});
+    expect(axios.post).toHaveBeenCalledWith('/api/repositories/create/', mockValues, {headers: mockHeaders});
     expect(store.dispatch).toHaveBeenCalledWith(createRepositorySuccess(mockResponse.data, true));
     expect(reset).toHaveBeenCalledWith('repoCreate');
   });
@@ -52,7 +52,7 @@ describe('Commit test', () => {
 
     await createRepository(mockValues, mockHeaders, jest.fn());
 
-    expect(axios.post).toHaveBeenCalledWith('/api/repositories/create', mockValues, {headers: mockHeaders});
+    expect(axios.post).toHaveBeenCalledWith('/api/repositories/create/', mockValues, {headers: mockHeaders});
     expect(store.dispatch).toHaveBeenCalledWith(createRepositoryError(mockError.response.data.error));
   });
 });
