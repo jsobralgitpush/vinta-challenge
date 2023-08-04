@@ -13,10 +13,7 @@ jobs:
       with:
         node-version: 14
     - name: Install dependencies
-      run: |
-        cd assets/js
-        npm install
+      run: npm install
     - name: Run npx lint
-      run: |
-        cd assets/js
-        npx lint
+      run: 
+        npx lint assets/js
