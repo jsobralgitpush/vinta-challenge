@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as commitAPI from '../api/CommitAPI';
 import CommitList from '../components/CommitList';
 import PaginationComponent from '../components/Utils/PaginationComponent';
 
-class CommitListContainer extends React.Component {
-  componentDidMount() {
-    commitAPI.getCommits('/api/commits/');
-  }
+const CommitListContainer = () => {
+  const commits = useSelector(state => state.commitState.commits);
+  const pageData = useSelector(state => state.commitState.pageData);
 
-  render() {
-    const { commits, pageData } = this.props;
-    return (
-      <div>
-        <CommitList commits={commits} />
-        <PaginationComponent pageData={pageData} />
-      </div>
-    );
-  }
+  useEffect(() => {
+    commitAPI.getCommits('/api/commits/');
+  }, []); 
+
+  return (
+    <div>
+      <CommitList commits={commits} />
+      <PaginationComponent pageData={pageData} />
+    </div>
+  );
 }
 
 CommitListContainer.propTypes = {
@@ -26,9 +26,4 @@ CommitListContainer.propTypes = {
   pageData: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (store) => ({
-  commits: store.commitState.commits,
-  pageData: store.commitState.pageData,
-});
-
-export default connect(mapStateToProps)(CommitListContainer);
+export default CommitListContainer;
