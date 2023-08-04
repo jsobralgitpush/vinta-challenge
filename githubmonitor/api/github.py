@@ -31,7 +31,8 @@ class RepositoryService:
         response = requests.get(
             url,
             headers=RepositoryService().__get_headers(),
-            params=params)
+            params=params,
+            timeout=10)
         repositories = [Repository(repo_data) for repo_data in response.json()]
         return response.status_code, repositories
 
@@ -41,7 +42,8 @@ class RepositoryService:
         response = requests.get(
             url,
             headers=RepositoryService().__get_headers(),
-            params=params)
+            params=params,
+            timeout=10)
         repository = Repository(response.json())
         return response.status_code, repository
 
@@ -51,7 +53,8 @@ class RepositoryService:
         response = requests.get(
             url,
             headers=RepositoryService().__get_headers(),
-            params=params)
+            params=params,
+            timeout=10)
         repositories = [Repository(repo_data) for repo_data in response.json()]
         return response.status_code, repositories
 
@@ -61,6 +64,7 @@ class RepositoryService:
         response = requests.get(
             url,
             headers=RepositoryService().__get_headers(),
-            params=params)
+            params=params,
+            timeout=10)
         commits = [Commit(commit_data) for commit_data in response.json()]
         return response.status_code, commits
