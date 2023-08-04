@@ -1,6 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import CommitList from '../../../components/CommitList/index';
+import { getCommits } from '../../../api/CommitAPI';
+
+jest.mock('../../../api/CommitAPI');
 
 const mockData = [
   {
@@ -29,12 +32,32 @@ describe('CommitList', () => {
     expect(screen.getByText('Test commit')).toBeInTheDocument();
     expect(screen.getByText('Another test commit')).toBeInTheDocument();
 
-    expect(screen.getByText('John Doe authored on Test Repo at 2023-08-02')).toBeInTheDocument();
-    expect(screen.getByText('Jane Doe authored on Another Test Repo at 2023-08-03')).toBeInTheDocument();
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('Test Repo')).toBeInTheDocument();
+    
+    expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+    expect(screen.getByText('Another Test Repo')).toBeInTheDocument();
+
   });
 
   it('does not render when there are no commits', () => {
     render(<CommitList commits={[]} />);
     expect(screen.queryByText('Commit List')).toBeNull();
+  });
+
+  it('handles author click correctly', () => {
+    render(<CommitList commits={mockData} />);
+  
+    fireEvent.click(screen.getByText('John Doe'));
+  
+    expect(getCommits).toHaveBeenCalledWith('/api/commits/?author=John Doe');
+  });
+  
+  it('handles repository click correctly', () => {
+    render(<CommitList commits={mockData} />);
+  
+    fireEvent.click(screen.getByText('Test Repo'));
+  
+    expect(getCommits).toHaveBeenCalledWith('/api/commits/?repository_name=Test Repo');
   });
 });
