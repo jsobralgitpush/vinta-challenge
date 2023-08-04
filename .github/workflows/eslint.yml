@@ -1,4 +1,4 @@
-name: Flake8 Lint
+name: eslint-airbnb
 
 on: [push, pull_request]
 
