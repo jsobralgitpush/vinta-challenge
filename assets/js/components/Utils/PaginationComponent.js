@@ -1,27 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import { getCommits } from '../../api/CommitAPI';
 
-const PaginationComponent = () => {
-  const pageData = useSelector(state => state.pageData);
-  
-  useEffect(() => {
-    getCommits(pageData.first); 
-  }, []); 
+const PaginationComponent = ({pageData}) => {
+  if (!pageData.count || pageData.count <= 0) {
+    return null;
+  }
 
   let items = [];
-  for (let number = 1; number <= pageData.count; number++) {
-    const isCurrentPage = number === pageData.current;
+  let currentPage = 1;
+  const getUrlForPage = (baseUrl, pageNum) => {
+    const url = new URL(baseUrl);
+    url.searchParams.set('page', pageNum);
+    return url.toString();
+  }
+
+  try {
+    currentPage = Number(new URL(pageData.current).searchParams.get('page')) || 1;
+  } catch (error) {
+    currentPage = 1;
+  }
+
+  const countPages = Math.ceil(pageData.count / 10); 
+  const startIndex = Math.max(currentPage - 2, 1);
+  const endIndex = Math.min(startIndex + 4, countPages);
+
+  for (let number = startIndex; number <= endIndex; number++) {
+    const isCurrentPage = number === currentPage;
     items.push(
-      <Pagination.Item key={number} active={isCurrentPage} onClick={() => getCommits(`${pageData.first}&page=${number}`)}>
+      <Pagination.Item key={number} active={isCurrentPage} onClick={() => getCommits(getUrlForPage(pageData.first, number))}>
         {number}
       </Pagination.Item>
     );
   }
 
   return (
-    <div>
+    <div className='d-flex justify-content-center'>
       <Pagination>
         <Pagination.First onClick={() => getCommits(pageData.first)} />
         <Pagination.Prev onClick={() => getCommits(pageData.previous)} disabled={!pageData.previous} />
