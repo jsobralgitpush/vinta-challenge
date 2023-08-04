@@ -35,7 +35,7 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: ${{ secrets.DEBUG }}
       ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DATABASE_URL: postgres://postgres:@localhost:5432/test
+      DATABASE_URL: postgres://postgres:@db:5432/test
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -48,9 +48,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up environment variables
-        run: echo "DATABASE_URL=postgres://postgres:@localhost:5432/test" >> $GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v2
