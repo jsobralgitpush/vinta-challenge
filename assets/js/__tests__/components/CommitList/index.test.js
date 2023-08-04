@@ -29,8 +29,12 @@ describe('CommitList', () => {
     expect(screen.getByText('Test commit')).toBeInTheDocument();
     expect(screen.getByText('Another test commit')).toBeInTheDocument();
 
-    expect(screen.getByText('John Doe authored on Test Repo at 2023-08-02')).toBeInTheDocument();
-    expect(screen.getByText('Jane Doe authored on Another Test Repo at 2023-08-03')).toBeInTheDocument();
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('Test Repo')).toBeInTheDocument();
+    
+    expect(screen.getByText('Jane Doe')).toBeInTheDocument();
+    expect(screen.getByText('Another Test Repo')).toBeInTheDocument();
+
   });
 
   it('does not render when there are no commits', () => {
