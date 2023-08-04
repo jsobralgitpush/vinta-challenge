@@ -12,5 +12,5 @@ requests==2.31.0
 social-auth-app-django==5.2.0
 social-auth-core==4.4.2
 whitenoise==6.4.0
-django_filters==23.2
+django_filters
 
