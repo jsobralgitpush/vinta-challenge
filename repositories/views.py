@@ -39,6 +39,9 @@ class RepositoryCreateView(BaseView):
         status_code, repositories = RepositoryService.fetch_by_authenticated_user()
         user = request.user
 
+        if Repository.objects.filter(name=repo_name).exists():
+            return Response({'error': 'Repository already created.'}, status=status.HTTP_400_BAD_REQUEST)
+        
         if status_code in [401, 403]:
             return Response(
                 {'error': 'Unauthorized or forbidden.'}, status=status_code)
