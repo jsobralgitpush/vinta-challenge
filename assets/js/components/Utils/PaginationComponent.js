@@ -3,7 +3,7 @@ import { Pagination } from 'react-bootstrap';
 import { getCommits } from '../../api/CommitAPI';
 
 const PaginationComponent = ({pageData}) => {
-  if (!pageData.count || pageData.count <= 0) {
+  if (!pageData.count || pageData.count < 10) {
     return null;
   }
 
