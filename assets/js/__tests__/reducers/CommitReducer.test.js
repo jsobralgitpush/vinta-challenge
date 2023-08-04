@@ -4,6 +4,7 @@ import commitReducer from '../../reducers/CommitReducer';
 describe('CommitReducer', () => {
   const initialState = {
     commits: [],
+    repos: [],
     pageData: {
       count: 0,
       next: null,
