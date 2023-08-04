@@ -9,12 +9,13 @@ from datetime import datetime, timedelta
 def fetch_and_store_commits(username, repo_id):
     repository = Repository.objects.get(id=repo_id)
     since_timestamp = (datetime.now() - timedelta(days=30)).isoformat()
-    status_code, commits = RepositoryService.fetch_repo_commits(username, repository.name, params={'since': since_timestamp})
+    status_code, commits = RepositoryService.fetch_repo_commits(
+        username, repository.name, params={'since': since_timestamp})
 
     if status_code == 200:
 
         for commit in commits:
-            
+
             Commit.objects.create(
                 message=commit.message,
                 sha=commit.sha,

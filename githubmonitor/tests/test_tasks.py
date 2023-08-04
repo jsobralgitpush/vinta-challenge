@@ -4,12 +4,17 @@ from repositories.tasks import fetch_and_store_commits
 from repositories.models import Repository, Commit
 from datetime import datetime
 
+
 class TestFetchAndStoreCommitsTask(TestCase):
-    
+
     @patch('repositories.tasks.RepositoryService.fetch_repo_commits')
     @patch('repositories.tasks.Repository.objects.get')
     @patch('repositories.tasks.Commit.objects.create')
-    def test_fetch_and_store_commits(self, mock_commit_create, mock_repo_get, mock_fetch_commits):
+    def test_fetch_and_store_commits(
+            self,
+            mock_commit_create,
+            mock_repo_get,
+            mock_fetch_commits):
         mock_repo = Repository(id=1, name='Test Repo')
         mock_repo_get.return_value = mock_repo
 

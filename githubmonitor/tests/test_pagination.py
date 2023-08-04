@@ -6,6 +6,7 @@ from githubmonitor.pagination import CustomPageNumberPagination
 from repositories.models import Commit, Repository
 from repositories.views import CommitListView
 
+
 class CustomPageNumberPaginationTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -13,12 +14,12 @@ class CustomPageNumberPaginationTestCase(TestCase):
         self.view = CommitListView.as_view()
         self.repository = Repository.objects.create(name='Repo')
 
-        for i in range(50):  
+        for i in range(50):
             Commit.objects.create(
-              author="Pedro",
-              message=f'Commit {i}', 
-              date=timezone.now(), 
-              repository=self.repository
+                author="Pedro",
+                message=f'Commit {i}',
+                date=timezone.now(),
+                repository=self.repository
             )
 
     def test_pagination(self):
@@ -33,9 +34,9 @@ class CustomPageNumberPaginationTestCase(TestCase):
         request = self.factory.get(url)
         request = Request(request)
 
-        queryset = Commit.objects.all()  
+        queryset = Commit.objects.all()
         results = self.pagination.paginate_queryset(queryset, request)
-        self.assertEqual(len(results), 10) 
+        self.assertEqual(len(results), 10)
 
         response = self.pagination.get_paginated_response(results)
         self.assertIn('count', response.data)
@@ -47,9 +48,4 @@ class CustomPageNumberPaginationTestCase(TestCase):
         self.assertIn('results', response.data)
 
         self.assertTrue(response.data['first'].endswith('?page=1'))
-        self.assertTrue(response.data['last'].endswith('?page=5'))  
-
-
-
-
-
+        self.assertTrue(response.data['last'].endswith('?page=5'))
