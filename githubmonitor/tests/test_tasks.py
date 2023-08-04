@@ -2,6 +2,7 @@ from unittest.mock import patch
 from django.test import TestCase
 from repositories.tasks import fetch_and_store_commits
 from repositories.models import Repository, Commit
+from datetime import datetime
 
 class TestFetchAndStoreCommitsTask(TestCase):
     
