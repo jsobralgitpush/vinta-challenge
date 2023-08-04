@@ -1,8 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { getCommits } from '../../api/CommitAPI';
 
 const CommitList = (props) => {
-  const {commits} = props;
+  const { commits } = props;
+
+  const handleAuthorClick = (author) => {
+    const url = `/api/commits/?author=${author}`;
+    getCommits(url);
+  }
+
+  const handleRepoClick = (repo) => {
+    const url = `/api/commits/?repository_name=${repo}`;
+    getCommits(url);
+  }
   return (
     <div>
       {commits.length !== 0 && (
@@ -14,22 +25,40 @@ const CommitList = (props) => {
 
             <div className="card-body">
               {commits.map((commit, index) => (
-                <div key={commit.sha}>
+                <div key={`${commit.sha}-${index}`}>
                   <div className="avatar">
                     <img alt={commit.author} className="img-author" src={commit.avatar} />
                   </div>
-                  <div className="commit-details">
+                  <div className="commit-detailms">
                     <p>
                       {commit.message}
                     </p>
                     <small className="text-muted">
-                      {commit.author}
+                      <a
+                        role="button"
+                        href="#"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          handleAuthorClick(commit.author);
+                        }}
+                      >
+                        {commit.author}
+                      </a>
                       {' '}
                       authored
                       {' '}
                       on
                       {' '}
-                      {commit.repository}
+                      <a
+                        role="button"
+                        href="#"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          handleRepoClick(commit.repository);
+                        }}
+                      >
+                        {commit.repository}
+                      </a>
                       {' '}
                       at
                       {' '}
