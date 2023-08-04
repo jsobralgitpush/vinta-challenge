@@ -13,8 +13,8 @@ class GithubMonitorTest(TestCase):
         self.ex_repo_data = {'name': 'ExistingRepo'}
         self.ex_repo_data_2 = {'name': 'ExistingRepo2'}
         self.repository = Repository.objects.create(name=self.ex_repo_data['name'])
-        self.user = User.objects.create_user(username='test', password='test')
-        self.client.login(username='test', password='test')
+        self.user = User.objects.create_user(username='test', password='test') #nosec
+        self.client.login(username='test', password='test') #nosec
 
     def test_repository_list_view(self):
         repository1 = Repository.objects.create(name='Repository 1')
