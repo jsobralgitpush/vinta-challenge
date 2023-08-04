@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import reducer from '../../reducers/Index';  
+import reducer from '../../reducers/Index';
 import * as commitAPI from '../../api/CommitAPI';
 import RepoListContainer from '../../containers/RepoListContainer';
 
@@ -10,17 +10,17 @@ jest.mock('../../api/CommitAPI');
 
 describe('RepoListContainer', () => {
   let store;
-  
+
   beforeEach(() => {
     store = createStore(reducer, {
       commitState: {
         repos: [
           { id: 1, name: 'Repo 1' },
-          { id: 2, name: 'Repo 2' }
-        ]
+          { id: 2, name: 'Repo 2' },
+        ],
       },
     });
-    
+
     commitAPI.getCommits.mockReset();
   });
 
@@ -30,7 +30,7 @@ describe('RepoListContainer', () => {
     render(
       <Provider store={store}>
         <RepoListContainer />
-      </Provider>
+      </Provider>,
     );
 
     expect(commitAPI.getRepos).toHaveBeenCalledTimes(1);
@@ -40,7 +40,7 @@ describe('RepoListContainer', () => {
     const { getByText } = render(
       <Provider store={store}>
         <RepoListContainer />
-      </Provider>
+      </Provider>,
     );
 
     expect(getByText('Repo 1')).toBeInTheDocument();

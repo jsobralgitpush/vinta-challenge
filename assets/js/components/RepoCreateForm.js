@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Field, reduxForm} from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
-const renderField = ({
-  input, placeholder, className, type, meta: {touched, error, invalid},
-}) => (
+function renderField({
+  input, placeholder, className, type, meta: { touched, error, invalid },
+}) {
+  return (
     <div>
       <input
         {...input}
@@ -17,10 +18,10 @@ const renderField = ({
           <div className="invalid-feedback">
             {error}
           </div>
-        )))
-      }
+        )))}
     </div>
   );
+}
 
 renderField.propTypes = {
   input: PropTypes.object.isRequired,
@@ -30,7 +31,7 @@ renderField.propTypes = {
   meta: PropTypes.object.isRequired,
 };
 
-const RepoCreateForm = (props) => {
+function RepoCreateForm(props) {
   const {
     successMessage, errorMessage, handleSubmit, pristine, submitting,
   } = props;
@@ -68,7 +69,7 @@ const RepoCreateForm = (props) => {
       </form>
     </div>
   );
-};
+}
 
 RepoCreateForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
@@ -79,7 +80,7 @@ RepoCreateForm.propTypes = {
 };
 
 const validate = (values) => {
-  const {username} = document.getElementById('main').dataset;
+  const { username } = document.getElementById('main').dataset;
   const errors = {};
   if (!values.name || !values.name.startsWith(`${username}/`)) {
     errors.name = `Repository must belong to you (eg: ${username}/repo-name)`;

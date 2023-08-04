@@ -5,12 +5,9 @@ import configureMockStore from 'redux-mock-store'; // You'll need to install thi
 import PaginationComponent from '../../../components/Utils/PaginationComponent';
 import getCommits from '../../../api/CommitAPI';
 
-jest.mock('../../../api/CommitAPI', () => {
-  return {
-    getCommits: jest.fn(),
-  };
-});
-
+jest.mock('../../../api/CommitAPI', () => ({
+  getCommits: jest.fn(),
+}));
 
 describe('PaginationComponent', () => {
   const pageData = {
@@ -30,20 +27,18 @@ describe('PaginationComponent', () => {
       { id: 7, message: 'commit 7' },
       { id: 8, message: 'commit 8' },
       { id: 9, message: 'commit 9' },
-      { id: 10, message: 'commit 10' }
-    ]
+      { id: 10, message: 'commit 10' },
+    ],
   };
 
   const mockStore = configureMockStore();
   const store = mockStore(pageData);
 
-  const renderWithRedux = (component) => {
-    return {
-      ...render(<Provider store={store}>{component}</Provider>)
-    }
-  }
+  const renderWithRedux = (component) => ({
+    ...render(<Provider store={store}>{component}</Provider>),
+  });
 
-  const getCommits = require('../../../api/CommitAPI').getCommits;
+  const { getCommits } = require('../../../api/CommitAPI');
 
   test('renders pagination items', () => {
     const pageData = {
@@ -51,11 +46,11 @@ describe('PaginationComponent', () => {
       current: 'http://localhost:8000/api/commits?page=5',
     };
     const { getByText } = renderWithRedux(<PaginationComponent pageData={pageData} />);
-    
+
     const currentPage = Number(new URL(pageData.current).searchParams.get('page')) || 1;
     const startIndex = Math.max(currentPage - 2, 1);
     const endIndex = Math.min(startIndex + 4, Math.ceil(pageData.count / 10));
-  
+
     for (let number = startIndex; number <= endIndex; number++) {
       const item = getByText(number.toString());
       expect(item).toBeInTheDocument();

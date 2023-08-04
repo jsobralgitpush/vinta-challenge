@@ -7,8 +7,8 @@ describe('CommitActions', () => {
     const mockMessage = 'Repo created successfully';
     const expectedAction = {
       type: types.CREATE_REPOSITORY_SUCCESS,
-      payload: {response: mockResponse, successMessage: mockMessage},
-    }
+      payload: { response: mockResponse, successMessage: mockMessage },
+    };
     expect(actions.createRepositorySuccess(mockResponse, mockMessage)).toEqual(expectedAction);
   });
 
@@ -17,8 +17,8 @@ describe('CommitActions', () => {
     const mockPageData = { currentPage: 1, totalItems: 10 };
     const expectedAction = {
       type: types.GET_COMMITS_SUCCESS,
-      payload: {commits: mockCommits, pageData: mockPageData},
-    }
+      payload: { commits: mockCommits, pageData: mockPageData },
+    };
     expect(actions.getCommitsSuccess(mockCommits, mockPageData)).toEqual(expectedAction);
   });
 
@@ -26,8 +26,8 @@ describe('CommitActions', () => {
     const mockMessage = 'Error creating repository';
     const expectedAction = {
       type: types.CREATE_REPOSITORY_ERROR,
-      payload: {errorMessage: mockMessage},
-    }
+      payload: { errorMessage: mockMessage },
+    };
     expect(actions.createRepositoryError(mockMessage)).toEqual(expectedAction);
   });
 });

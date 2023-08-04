@@ -1,19 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { getCommits } from '../../api/CommitAPI';
 
-const CommitList = (props) => {
+function CommitList(props) {
   const { commits } = props;
 
   const handleAuthorClick = (author) => {
     const url = `/api/commits/?author=${author}`;
     getCommits(url);
-  }
+  };
 
   const handleRepoClick = (repo) => {
     const url = `/api/commits/?repository_name=${repo}`;
     getCommits(url);
-  }
+  };
   return (
     <div>
       {commits.length !== 0 && (
@@ -74,7 +74,7 @@ const CommitList = (props) => {
       )}
     </div>
   );
-};
+}
 
 CommitList.propTypes = {
   commits: PropTypes.arrayOf(PropTypes.object).isRequired,

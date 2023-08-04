@@ -23,7 +23,7 @@ RepoListContainer.propTypes = {
   repos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store) => ({
   repos: store.commitState.repos,
 });
 
