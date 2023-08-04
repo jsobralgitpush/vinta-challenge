@@ -20,7 +20,7 @@ const RepoList = ({ repos }) => {
             handleRepoClick(repo.name);
           }}
         >
-          <li key={repo.id} style={{ color: 'white' }}>
+          <li key={repo.id}>
             {repo.name}
           </li>
         </a>
