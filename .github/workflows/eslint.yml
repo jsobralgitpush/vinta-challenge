@@ -1,3 +1,8 @@
+name: Flake8 Lint
+
+on: [pull_request]
+
+job:
   npx-lint:
     runs-on: ubuntu-latest
     steps:
