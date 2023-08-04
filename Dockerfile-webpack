@@ -4,5 +4,6 @@ RUN mkdir /app/
 WORKDIR /app/
 ADD . /app/
 RUN npm install
+RUN npm install --save-dev @babel/plugin-proposal-class-properties
 
 CMD ["npm", "run", "webpack"]
