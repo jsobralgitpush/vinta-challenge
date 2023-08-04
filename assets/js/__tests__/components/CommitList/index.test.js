@@ -1,6 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import CommitList from '../../../components/CommitList/index';
+import { getCommits } from '../../../api/CommitAPI';
+
+jest.mock('../../../api/CommitAPI');
 
 const mockData = [
   {
@@ -40,5 +43,21 @@ describe('CommitList', () => {
   it('does not render when there are no commits', () => {
     render(<CommitList commits={[]} />);
     expect(screen.queryByText('Commit List')).toBeNull();
+  });
+
+  it('handles author click correctly', () => {
+    render(<CommitList commits={mockData} />);
+  
+    fireEvent.click(screen.getByText('John Doe'));
+  
+    expect(getCommits).toHaveBeenCalledWith('/api/commits/?author=John Doe');
+  });
+  
+  it('handles repository click correctly', () => {
+    render(<CommitList commits={mockData} />);
+  
+    fireEvent.click(screen.getByText('Test Repo'));
+  
+    expect(getCommits).toHaveBeenCalledWith('/api/commits/?repository_name=Test Repo');
   });
 });
