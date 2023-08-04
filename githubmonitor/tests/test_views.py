@@ -52,7 +52,7 @@ class GithubMonitorTest(TestCase):
             date=timezone.now(), 
             repository=other_repository
         )
-        response = self.client.get(reverse('repositories:commits-list'), {'repository': other_repository.id})
+        response = self.client.get(reverse('repositories:commits-list'), {'repository_name': other_repository.name})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['results']), 1)
         self.assertEqual(response.data['results'][0]['message'], commit3.message)
