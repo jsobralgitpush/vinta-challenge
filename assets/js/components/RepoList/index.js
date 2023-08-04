@@ -14,7 +14,7 @@ function RepoList({ repos }) {
         <li key={repo.id}>
           <button
             type="button"
-            onClick={() => handleRepoClick(repo.repository)}
+            onClick={() => handleRepoClick(repo.name)}
             key={repo.id}
             style={{
               backgroundColor: 'transparent',
