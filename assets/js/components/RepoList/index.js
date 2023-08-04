@@ -1,15 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getCommits } from '../../api/CommitAPI';
 
-const RepoList = ({ repos }) => (
-  <ul>
-    {repos.map(repo => (
-      <li key={repo.id} style={{ color: 'white' }}>
-        {repo.name}
-      </li>
-    ))}
-  </ul>
-);
+const RepoList = ({ repos }) => {
+
+  const handleRepoClick = (repository) => {
+    const url = `/api/commits/?repository_name=${repository}`;
+    getCommits(url);
+  }
+
+  return (
+    <ul>
+      {repos.map(repo => (
+        <a
+          role="button"
+          href="#"
+          onClick={(event) => {
+            event.preventDefault();
+            handleRepoClick(repo.name);
+          }}
+        >
+          <li key={repo.id} style={{ color: 'white' }}>
+            {repo.name}
+          </li>
+        </a>
+      ))}
+    </ul>
+  )
+};
 
 RepoList.propTypes = {
   repos: PropTypes.arrayOf(
