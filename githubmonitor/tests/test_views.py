@@ -16,8 +16,6 @@ class GithubMonitorTest(TestCase):
         self.repository = Repository.objects.create(name=self.ex_repo_data['name'])
         self.user = User.objects.create_user(username='test', password='test')
         self.client.login(username='test', password='test')
-        self.user_social_auth = UserSocialAuth.objects.create(user=self.user, provider='github', extra_data={'access_token': 'fake_token'})
-
 
     def test_commit_list_view(self):
         commit1 = Commit.objects.create(message='Commit 1', date=timezone.now(), repository=self.repository)

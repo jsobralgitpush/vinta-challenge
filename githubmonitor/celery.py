@@ -11,4 +11,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'githubmonitor.settings')
 
 app = Celery('githubmonitor_tasks')
 app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks(lambda: [n.name for n in apps.get_app_configs()])
+app.autodiscover_tasks()
