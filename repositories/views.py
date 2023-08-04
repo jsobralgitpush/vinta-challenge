@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from repositories.tasks import fetch_and_store_commits 
 from githubmonitor.api.github import RepositoryService
 from .models import Commit, CommitFilter
 from .serializers import CommitSerializer, RepositorySerializer
@@ -25,7 +26,8 @@ class RepositoryCreateView(BaseView):
     def post(self, request):
         repo_name = request.data.get('name')
         status_code, repositories = RepositoryService.fetch_by_authenticated_user()
-
+        user = request.user
+        
         if status_code in [401, 403]:
             return Response({'error': 'Unauthorized or forbidden.'}, status=status_code)
         elif status_code == 422:
@@ -37,6 +39,7 @@ class RepositoryCreateView(BaseView):
             serializer = RepositorySerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
+            fetch_and_store_commits.delay(user.username, serializer.data['id'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response({'error': 'Repository does not exist.'}, status=status.HTTP_404_NOT_FOUND)
