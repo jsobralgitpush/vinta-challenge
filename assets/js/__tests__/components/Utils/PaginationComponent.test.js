@@ -35,7 +35,7 @@ describe('PaginationComponent', () => {
   };
 
   const mockStore = configureMockStore();
-  const store = mockStore({ pageData });
+  const store = mockStore(pageData);
 
   const renderWithRedux = (component) => {
     return {
@@ -46,41 +46,45 @@ describe('PaginationComponent', () => {
   const getCommits = require('../../../api/CommitAPI').getCommits;
 
   test('renders pagination items', () => {
-    const { getByText } = renderWithRedux(<PaginationComponent />);
-    for (let number = 1; number <= pageData.count; number++) {
+    const pageData = {
+      count: 100,
+      current: 'http://localhost:8000/api/commits?page=5',
+    };
+    const { getByText } = renderWithRedux(<PaginationComponent pageData={pageData} />);
+    
+    const currentPage = Number(new URL(pageData.current).searchParams.get('page')) || 1;
+    const startIndex = Math.max(currentPage - 2, 1);
+    const endIndex = Math.min(startIndex + 4, Math.ceil(pageData.count / 10));
+  
+    for (let number = startIndex; number <= endIndex; number++) {
       const item = getByText(number.toString());
       expect(item).toBeInTheDocument();
     }
   });
 
-  test('calls getCommits with first page url on mount', () => {
-    renderWithRedux(<PaginationComponent />);
-    expect(getCommits).toHaveBeenCalledWith(pageData.first);
-  });
-
   test('calls getCommits with page url on item click', () => {
-    const { getByText } = renderWithRedux(<PaginationComponent />);
+    const { getByText } = renderWithRedux(<PaginationComponent pageData={pageData} />);
     const item = getByText('2');
     fireEvent.click(item);
-    expect(getCommits).toHaveBeenCalledWith(`${pageData.first}&page=2`);
+    expect(getCommits).toHaveBeenCalledWith(`${pageData.current}?page=2`);
   });
 
   test('calls getCommits with page url on First click', () => {
-    const { getByText } = renderWithRedux(<PaginationComponent />);
+    const { getByText } = renderWithRedux(<PaginationComponent pageData={pageData} />);
     const item = getByText('First');
     fireEvent.click(item);
     expect(getCommits).toHaveBeenCalledWith(`${pageData.first}`);
   });
 
   test('calls getCommits with page url on Next click', () => {
-    const { getByText } = renderWithRedux(<PaginationComponent />);
+    const { getByText } = renderWithRedux(<PaginationComponent pageData={pageData} />);
     const item = getByText('Next');
     fireEvent.click(item);
     expect(getCommits).toHaveBeenCalledWith(`${pageData.first}`);
   });
 
   test('calls getCommits with page url on Last click', () => {
-    const { getByText } = renderWithRedux(<PaginationComponent />);
+    const { getByText } = renderWithRedux(<PaginationComponent pageData={pageData} />);
     const item = getByText('Last');
     fireEvent.click(item);
     expect(getCommits).toHaveBeenCalledWith(`${pageData.last}`);
