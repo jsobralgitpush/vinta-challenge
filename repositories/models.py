@@ -28,10 +28,13 @@ class Commit(models.Model):
     class Meta:
         ordering = ('-date',)
 
+
 class CommitFilter(django_filters.FilterSet):
     author = django_filters.CharFilter(lookup_expr='icontains')
     repository_id = django_filters.NumberFilter(field_name="repository__id")
-    repository_name = django_filters.CharFilter(field_name="repository__name", lookup_expr='icontains')
+    repository_name = django_filters.CharFilter(
+        field_name="repository__name", lookup_expr='icontains')
+
     class Meta:
         model = Commit
         fields = ['author', 'repository_id', 'repository_name']

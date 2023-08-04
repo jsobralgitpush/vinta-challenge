@@ -2,7 +2,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import reducer from '../../reducers/Index';  
+import reducer from '../../reducers/Index';
 import * as commitAPI from '../../api/CommitAPI';
 import CommitListContainer from '../../containers/CommitListContainer';
 
@@ -10,13 +10,13 @@ jest.mock('../../api/CommitAPI');
 
 describe('CommitListContainer', () => {
   let store;
-  
+
   beforeEach(() => {
     store = createStore(reducer, {
       commitState: {
         commits: [
           { id: 1, message: 'First commit', sha: 'a1b2c3' },
-          { id: 2, message: 'Second commit', sha: 'd4e5f6' }
+          { id: 2, message: 'Second commit', sha: 'd4e5f6' },
         ],
         pageData: {
           count: 2,
@@ -25,10 +25,10 @@ describe('CommitListContainer', () => {
           current: 'http://localhost:8000/api/commits/',
           first: 'http://localhost:8000/api/commits/?page=1',
           last: 'http://localhost:8000/api/commits/?page=1',
-        }
+        },
       },
     });
-    
+
     commitAPI.getCommits.mockReset();
   });
 
@@ -38,7 +38,7 @@ describe('CommitListContainer', () => {
     render(
       <Provider store={store}>
         <CommitListContainer />
-      </Provider>
+      </Provider>,
     );
 
     expect(commitAPI.getCommits).toHaveBeenCalledTimes(1);
@@ -48,7 +48,7 @@ describe('CommitListContainer', () => {
     const { getByText } = render(
       <Provider store={store}>
         <CommitListContainer />
-      </Provider>
+      </Provider>,
     );
 
     expect(getByText('First commit')).toBeInTheDocument();

@@ -26,9 +26,9 @@ describe('RepoList', () => {
 
   it('handles repository click correctly', () => {
     render(<RepoList repos={mockData} />);
-  
+
     fireEvent.click(screen.getByText('repo-one').parentElement);
-  
+
     expect(getCommits).toHaveBeenCalledWith('/api/commits/?repository_name=repo-one');
   });
 });
