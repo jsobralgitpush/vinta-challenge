@@ -18,6 +18,14 @@ describe('CommitListContainer', () => {
           { id: 1, message: 'First commit', sha: 'a1b2c3' },
           { id: 2, message: 'Second commit', sha: 'd4e5f6' }
         ],
+        pageData: {
+          count: 2,
+          next: 'http://localhost:8000/api/commits/?page=2',
+          previous: null,
+          current: 'http://localhost:8000/api/commits/',
+          first: 'http://localhost:8000/api/commits/?page=1',
+          last: 'http://localhost:8000/api/commits/?page=1',
+        }
       },
     });
     
