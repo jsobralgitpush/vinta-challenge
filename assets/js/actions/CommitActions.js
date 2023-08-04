@@ -10,6 +10,11 @@ export const getCommitsSuccess = (commits, pageData) => ({
   payload: {commits, pageData},
 });
 
+export const getReposSuccess = repos => ({
+  type: types.GET_REPOS_SUCCESS,
+  payload: repos,
+})
+
 export const createRepositoryError = errorMessage => ({
   type: types.CREATE_REPOSITORY_ERROR,
   payload: {errorMessage},

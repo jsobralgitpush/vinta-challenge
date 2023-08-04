@@ -4,9 +4,7 @@ from django.urls import reverse
 from unittest.mock import patch
 from repositories.models import Commit, Repository
 from django.utils import timezone
-from social_django.models import UserSocialAuth
 from django.contrib.auth.models import User
-
 from githubmonitor.api.github import Repository as APIRepository
 
 class GithubMonitorTest(TestCase):
@@ -130,4 +128,3 @@ class GithubMonitorTest(TestCase):
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.data['error'], 'Unknown error.')
-
