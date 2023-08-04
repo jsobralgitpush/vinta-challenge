@@ -11,6 +11,7 @@ class GithubMonitorTest(TestCase):
 
     def setUp(self):
         self.ex_repo_data = {'name': 'ExistingRepo'}
+        self.ex_repo_data_2 = {'name': 'ExistingRepo2'}
         self.repository = Repository.objects.create(name=self.ex_repo_data['name'])
         self.user = User.objects.create_user(username='test', password='test')
         self.client.login(username='test', password='test')
@@ -91,16 +92,16 @@ class GithubMonitorTest(TestCase):
         
     @patch('githubmonitor.api.github.RepositoryService.fetch_by_authenticated_user')
     def test_repository_create_view(self, mock_fetch):
-        mock_fetch.return_value = (200, [APIRepository(self.ex_repo_data)])
+        mock_fetch.return_value = (200, [APIRepository(self.ex_repo_data), APIRepository(self.ex_repo_data_2)])
 
         post_data = {
-            'name': self.repository.name,
+            'name': 'ExistingRepo2',
         }
 
         response = self.client.post(reverse('repositories:repositories-create'), data=json.dumps(post_data), content_type='application/json')
 
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data['name'], self.ex_repo_data['name'])
+        self.assertEqual(response.data['name'], self.ex_repo_data_2['name'])
 
         post_data = {
             'name': 'NonExistentRepo',
@@ -121,10 +122,19 @@ class GithubMonitorTest(TestCase):
         mock_fetch.return_value = (500, []) 
 
         post_data = {
-            'name': self.repository.name,
+            'name': 'ExistentRepo3',
         }
 
         response = self.client.post(reverse('repositories:repositories-create'), data=json.dumps(post_data), content_type='application/json')
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(response.data['error'], 'Unknown error.')
+
+        post_data = {
+            'name': self.repository.name,
+        }
+
+        response = self.client.post(reverse('repositories:repositories-create'), data=json.dumps(post_data), content_type='application/json')
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data['error'], 'Repository already created.')
