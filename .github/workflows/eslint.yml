@@ -1,0 +1,17 @@
+  npx-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+    - name: Install dependencies
+      run: |
+        cd assets/js
+        npm install
+    - name: Run npx lint
+      run: |
+        cd assets/js
+        npx lint
