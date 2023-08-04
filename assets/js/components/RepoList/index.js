@@ -19,8 +19,9 @@ const RepoList = ({ repos }) => {
             event.preventDefault();
             handleRepoClick(repo.name);
           }}
+          key={repo.id}
         >
-          <li key={repo.id}>
+          <li>
             {repo.name}
           </li>
         </a>
