@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import RepoCreateContainer from '../../containers/RepoCreateContainer';
 
-
 jest.mock('../../api/CommitAPI');
 
 const reducer = (state = { commitState: {} }, action) => {

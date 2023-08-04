@@ -14,9 +14,9 @@ describe('RepoCreateForm', () => {
     HTMLFormElement.prototype.requestSubmit = jest.fn();
 
     document.getElementById = jest.fn().mockReturnValue({
-      dataset: { username: "testuser" },
+      dataset: { username: 'testuser' },
     });
-    
+
     render(
       <Provider store={store}>
         <RepoCreateForm
@@ -26,7 +26,7 @@ describe('RepoCreateForm', () => {
           successMessage={false}
           errorMessage=""
         />
-      </Provider>
+      </Provider>,
     );
   });
 

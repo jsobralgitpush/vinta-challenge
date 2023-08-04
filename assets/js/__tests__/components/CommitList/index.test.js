@@ -34,10 +34,9 @@ describe('CommitList', () => {
 
     expect(screen.getByText('John Doe')).toBeInTheDocument();
     expect(screen.getByText('Test Repo')).toBeInTheDocument();
-    
+
     expect(screen.getByText('Jane Doe')).toBeInTheDocument();
     expect(screen.getByText('Another Test Repo')).toBeInTheDocument();
-
   });
 
   it('does not render when there are no commits', () => {
@@ -47,17 +46,17 @@ describe('CommitList', () => {
 
   it('handles author click correctly', () => {
     render(<CommitList commits={mockData} />);
-  
+
     fireEvent.click(screen.getByText('John Doe'));
-  
+
     expect(getCommits).toHaveBeenCalledWith('/api/commits/?author=John Doe');
   });
-  
+
   it('handles repository click correctly', () => {
     render(<CommitList commits={mockData} />);
-  
+
     fireEvent.click(screen.getByText('Test Repo'));
-  
+
     expect(getCommits).toHaveBeenCalledWith('/api/commits/?repository_name=Test Repo');
   });
 });

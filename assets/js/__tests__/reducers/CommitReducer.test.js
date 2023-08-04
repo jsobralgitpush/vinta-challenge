@@ -24,8 +24,8 @@ describe('CommitReducer', () => {
   it('should handle GET_COMMITS_SUCCESS', () => {
     const action = {
       type: types.GET_COMMITS_SUCCESS,
-      payload: { 
-        commits: ['commit1', 'commit2'], 
+      payload: {
+        commits: ['commit1', 'commit2'],
         pageData: {
           count: 2,
           next: null,
@@ -36,7 +36,7 @@ describe('CommitReducer', () => {
         },
       },
     };
-    
+
     const expectedState = {
       ...initialState,
       commits: action.payload.commits,
@@ -49,12 +49,12 @@ describe('CommitReducer', () => {
   it('should handle CREATE_REPOSITORY_SUCCESS', () => {
     const action = {
       type: types.CREATE_REPOSITORY_SUCCESS,
-      payload: { successMessage: true }
+      payload: { successMessage: true },
     };
-    
+
     const expectedState = {
       ...initialState,
-      successMessage: true
+      successMessage: true,
     };
 
     expect(commitReducer(undefined, action)).toEqual(expectedState);
@@ -63,12 +63,12 @@ describe('CommitReducer', () => {
   it('should handle CREATE_REPOSITORY_ERROR', () => {
     const action = {
       type: types.CREATE_REPOSITORY_ERROR,
-      payload: { errorMessage: 'Error message' }
+      payload: { errorMessage: 'Error message' },
     };
-    
+
     const expectedState = {
       ...initialState,
-      errorMessage: 'Error message'
+      errorMessage: 'Error message',
     };
 
     expect(commitReducer(undefined, action)).toEqual(expectedState);
