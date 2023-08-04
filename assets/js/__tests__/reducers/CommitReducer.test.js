@@ -4,6 +4,14 @@ import commitReducer from '../../reducers/CommitReducer';
 describe('CommitReducer', () => {
   const initialState = {
     commits: [],
+    pageData: {
+      count: 0,
+      next: null,
+      previous: null,
+      current: null,
+      first: null,
+      last: null,
+    },
     successMessage: false,
     errorMessage: null,
   };
@@ -15,12 +23,23 @@ describe('CommitReducer', () => {
   it('should handle GET_COMMITS_SUCCESS', () => {
     const action = {
       type: types.GET_COMMITS_SUCCESS,
-      payload: { 'commit1': {}, 'commit2': {} }
+      payload: { 
+        commits: ['commit1', 'commit2'], 
+        pageData: {
+          count: 2,
+          next: null,
+          previous: null,
+          current: null,
+          first: null,
+          last: null,
+        },
+      },
     };
     
     const expectedState = {
       ...initialState,
-      commits: [action.payload.commit1, action.payload.commit2]
+      commits: action.payload.commits,
+      pageData: action.payload.pageData,
     };
 
     expect(commitReducer(undefined, action)).toEqual(expectedState);
