@@ -1,6 +1,6 @@
 name: eslint-airbnb
 
-on: [push, pull_request]
+# on: [push, pull_request]
 
 jobs:
   npx-lint:
