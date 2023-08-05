@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as commitAPI from '../api/CommitAPI';
 import RepoList from '../components/RepoList/index';
 
-class RepoListContainer extends React.Component {
-  componentDidMount() {
+function RepoListContainer({ repos }) {
+  useEffect(() => {
     commitAPI.getRepos();
-  }
+  }, []);
 
-  render() {
-    const { repos } = this.props;
-    return (
-      <div>
-        <RepoList repos={repos} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <RepoList repos={repos} />
+    </div>
+  );
 }
 
 RepoListContainer.propTypes = {
