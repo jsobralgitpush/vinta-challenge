@@ -51,13 +51,13 @@ jobs:
       - name: Run backend tests
         run: python manage.py test
     
-      services:
-        db:
-          image: postgres:latest
-          env:
-            POSTGRES_USER: myuser
-            POSTGRES_PASSWORD: mypassword
-            POSTGRES_DB: mydb
-          ports:
-            - 5432:5432
+    services:
+      db:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: mydb
+        ports:
+          - 5432:5432
 
