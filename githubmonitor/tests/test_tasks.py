@@ -3,7 +3,8 @@ from django.test import TestCase
 from repositories.tasks import fetch_and_store_commits
 from repositories.models import Repository, Commit
 from datetime import datetime
-
+from common.cryptography import encrypt_token
+from django.contrib.auth.models import User
 
 class TestFetchAndStoreCommitsTask(TestCase):
 
@@ -15,7 +16,8 @@ class TestFetchAndStoreCommitsTask(TestCase):
             mock_commit_create,
             mock_repo_get,
             mock_fetch_commits):
-        mock_repo = Repository(id=1, name='Test Repo')
+        mock_user = User.objects.create_user(username='testuser', password='test') #nosec
+        mock_repo = Repository(id=1, name='Test Repo', user=mock_user)
         mock_repo_get.return_value = mock_repo
 
         mock_commit = Commit(
@@ -30,7 +32,7 @@ class TestFetchAndStoreCommitsTask(TestCase):
 
         mock_fetch_commits.return_value = (200, [mock_commit])
 
-        fetch_and_store_commits('testuser', 1)
+        fetch_and_store_commits(mock_user.username, 1, encrypt_token('token'))
 
         mock_repo_get.assert_called_once_with(id=1)
         mock_commit_create.assert_called_once_with(
@@ -41,4 +43,5 @@ class TestFetchAndStoreCommitsTask(TestCase):
             date=mock_commit.date,
             avatar=mock_commit.avatar,
             repository=mock_repo,
+            user=mock_repo.user
         )

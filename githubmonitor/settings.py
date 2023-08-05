@@ -158,7 +158,7 @@ CELERY_RESULT_BACKEND = config('RESULT_URL')
 SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
 SOCIAL_AUTH_GITHUB_SCOPE = [
-    'public_repo',
+    'repo',
     'write:repo_hook'
 ]
 

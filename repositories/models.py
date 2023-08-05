@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 import django_filters
 
 
 class Repository(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='repositories')
 
     def __str__(self):
         return self.name
@@ -19,8 +21,8 @@ class Commit(models.Model):
     url = models.URLField(max_length=200)
     date = models.DateTimeField()
     avatar = models.URLField(max_length=200, blank=True)
-
-    repository = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commits')
+    repository = models.ForeignKey(Repository, on_delete=models.CASCADE, related_name='commits')
 
     def __str__(self):
         return self.message
