@@ -29,10 +29,7 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: ${{ secrets.DEBUG }}
       ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydb
       BROKER_URL: ${{ secrets.BROKER_URL }}
       RESULT_URL: ${{ secrets.RESULT_URL }}
       SOCIAL_AUTH_GITHUB_KEY: ${{ secrets.SOCIAL_AUTH_GITHUB_KEY }}
@@ -54,9 +51,13 @@ jobs:
       - name: Run backend tests
         run: python manage.py test
     
-    services:
+      services:
         db:
-          image: "postgres:latest"
-          volumes:
-            - .db:/var/lib/postgresql/data
+          image: postgres:latest
+          env:
+            POSTGRES_USER: myuser
+            POSTGRES_PASSWORD: mypassword
+            POSTGRES_DB: mydb
+          ports:
+            - 5432:5432
 
