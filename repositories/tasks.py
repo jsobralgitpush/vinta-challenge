@@ -3,14 +3,15 @@ from django.contrib.auth.models import User
 from githubmonitor.api.github import RepositoryService
 from .models import Repository, Commit
 from datetime import datetime, timedelta
-
+from common.cryptography import decrypt_token
 
 @app.task(name='repositories.tasks.fetch_and_store_commits')
-def fetch_and_store_commits(username, repo_id):
+def fetch_and_store_commits(username, repo_id, encrypted_token):
     repository = Repository.objects.get(id=repo_id)
     since_timestamp = (datetime.now() - timedelta(days=30)).isoformat()
+    user = User.objects.get(username=username)
     status_code, commits = RepositoryService.fetch_repo_commits(
-        username, repository.name, params={'since': since_timestamp})
+        username, repository.name, decrypt_token(encrypted_token), params={'since': since_timestamp})
 
     if status_code == 200:
 
@@ -24,4 +25,5 @@ def fetch_and_store_commits(username, repo_id):
                 date=commit.date,
                 avatar=commit.avatar,
                 repository=repository,
+                user=user
             )
