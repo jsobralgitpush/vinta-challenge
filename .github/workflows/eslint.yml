@@ -1,6 +1,6 @@
 name: eslint-airbnb
 
-# on: [push, pull_request]
+on: [push, pull_request]
 
 jobs:
   npx-lint:
@@ -14,6 +14,6 @@ jobs:
         node-version: 14
     - name: Install dependencies
       run: npm install
-    - name: Run npx lint
+    - name: Run ESLint
       run: 
-        npx lint assets/js
+        npx eslint "assets/js/**"
