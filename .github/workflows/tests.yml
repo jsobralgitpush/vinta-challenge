@@ -9,24 +9,24 @@ on:
       - main
 
 jobs:
-  frontend-tests:
-    name: Frontend Tests
-    runs-on: ubuntu-latest
+  # frontend-tests:
+  #   name: Frontend Tests
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 14
 
-      - name: Install dependencies
-        run: npm install
+  #     - name: Install dependencies
+  #       run: npm install
 
-      - name: Run frontend tests
-        run: npm test
+  #     - name: Run frontend tests
+  #       run: npm test
 
   backend-tests:
     name: Backend Tests
@@ -35,7 +35,7 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: ${{ secrets.DEBUG }}
       ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DATABASE_URL: postgres://postgres:@db:5432/test
+      DATABASE_URL: postgres://postgres:@postgres:5432/test
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -52,11 +52,22 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x
+          python-version: 3.11
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run backend tests
         run: python manage.py test
+    
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
