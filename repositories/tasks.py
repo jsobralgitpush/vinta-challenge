@@ -11,7 +11,7 @@ def fetch_and_store_commits(username, repo_id, encrypted_token):
     since_timestamp = (datetime.now() - timedelta(days=30)).isoformat()
     user = User.objects.get(username=username)
     status_code, commits = RepositoryService.fetch_repo_commits(
-        username, repository.name, decrypt_token(encrypted_token), params={'since': since_timestamp})
+        username, repository.name, encrypted_token, params={'since': since_timestamp})
 
     if status_code == 200:
 
