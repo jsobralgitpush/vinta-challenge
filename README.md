@@ -1,6 +1,7 @@
 # github-monitor
 
-Github commits monitor
+- Github commits monitor
+- [Guide to recents implementations and instructions](https://vanilla-rest-6de.notion.site/Vinta-Software-Challenge-52c7dc305d554383854a8b18bc8ce712?pvs=4)
 
 ## Execution instructions
 
