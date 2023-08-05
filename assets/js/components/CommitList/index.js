@@ -25,7 +25,7 @@ function CommitList(props) {
 
             <div className="card-body">
               {commits.map((commit, index) => (
-                <div key={`${commit.sha}-${index}`}>
+                <div key={`${commit.sha}`}>
                   <div className="avatar">
                     <img alt={commit.author} className="img-author" src={commit.avatar} />
                   </div>
@@ -34,31 +34,43 @@ function CommitList(props) {
                       {commit.message}
                     </p>
                     <small className="text-muted">
-                      <a
-                        role="button"
-                        href="#"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          handleAuthorClick(commit.author);
+                      <button
+                        type="button"
+                        onClick={() => handleAuthorClick(commit.author)}
+                        style={{
+                          backgroundColor: 'transparent',
+                          color: 'blue',
+                          border: 'none',
+                          cursor: 'pointer',
+                          textDecoration: 'underline',
+                          display: 'inline',
+                          margin: 0,
+                          padding: 0,
                         }}
                       >
                         {commit.author}
-                      </a>
+                      </button>
                       {' '}
                       authored
                       {' '}
                       on
                       {' '}
-                      <a
-                        role="button"
-                        href="#"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          handleRepoClick(commit.repository);
+                      <button
+                        type="button"
+                        onClick={() => handleRepoClick(commit.repository)}
+                        style={{
+                          backgroundColor: 'transparent',
+                          color: 'blue',
+                          border: 'none',
+                          cursor: 'pointer',
+                          textDecoration: 'underline',
+                          display: 'inline',
+                          margin: 0,
+                          padding: 0,
                         }}
                       >
                         {commit.repository}
-                      </a>
+                      </button>
                       {' '}
                       at
                       {' '}
@@ -77,7 +89,16 @@ function CommitList(props) {
 }
 
 CommitList.propTypes = {
-  commits: PropTypes.arrayOf(PropTypes.object).isRequired,
+  commits: PropTypes.arrayOf(
+    PropTypes.shape({
+      sha: PropTypes.string,
+      author: PropTypes.string,
+      avatar: PropTypes.string,
+      message: PropTypes.string,
+      repository: PropTypes.string,
+      date: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default CommitList;

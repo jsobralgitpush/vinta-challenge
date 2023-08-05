@@ -11,19 +11,25 @@ function RepoList({ repos }) {
   return (
     <ul>
       {repos.map((repo) => (
-        <a
-          role="button"
-          href="#"
-          onClick={(event) => {
-            event.preventDefault();
-            handleRepoClick(repo.name);
-          }}
-          key={repo.id}
-        >
-          <li>
+        <li key={repo.id}>
+          <button
+            type="button"
+            onClick={() => handleRepoClick(repo.name)}
+            key={repo.id}
+            style={{
+              backgroundColor: 'transparent',
+              color: 'blue',
+              border: 'none',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              display: 'inline',
+              margin: 0,
+              padding: 0,
+            }}
+          >
             {repo.name}
-          </li>
-        </a>
+          </button>
+        </li>
       ))}
     </ul>
   );

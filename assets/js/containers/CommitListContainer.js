@@ -1,24 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as commitAPI from '../api/CommitAPI';
 import CommitList from '../components/CommitList';
 import PaginationComponent from '../components/Utils/PaginationComponent';
 
-class CommitListContainer extends React.Component {
-  componentDidMount() {
+const CommitListContainer = ({commits, pageData}) => {
+  useEffect(() => {
     commitAPI.getCommits('/api/commits/');
-  }
+  }, []); 
 
-  render() {
-    const { commits, pageData } = this.props;
-    return (
-      <div>
-        <CommitList commits={commits} />
-        <PaginationComponent pageData={pageData} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <CommitList commits={commits} />
+      <PaginationComponent pageData={pageData} />
+    </div>
+  );
 }
 
 CommitListContainer.propTypes = {
