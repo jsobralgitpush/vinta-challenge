@@ -35,6 +35,7 @@ jobs:
       SOCIAL_AUTH_GITHUB_KEY: ${{ secrets.SOCIAL_AUTH_GITHUB_KEY }}
       SOCIAL_AUTH_GITHUB_SECRET: ${{ secrets.SOCIAL_AUTH_GITHUB_SECRET }}
       GITHUB_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      FERNET_KEY: ${{ secrets.FERNET_KEY }}
 
     steps:
       - name: Checkout code
