@@ -60,5 +60,5 @@ jobs:
           POSTGRES_DB: mydb
           POSTGRES_HOST: localhost
         ports:
-          - ["5432:5432"]
+          - 5432:5432
 
