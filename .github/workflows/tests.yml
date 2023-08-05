@@ -1,12 +1,6 @@
 name: Run Tests
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+# on: [push, pull_request]
 
 jobs:
   frontend-tests:
@@ -35,15 +29,12 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: ${{ secrets.DEBUG }}
       ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DATABASE_URL: postgres://postgres:@db:5432/test
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_URL: postgres://myuser:mypassword@localhost:5432/mydb
       BROKER_URL: ${{ secrets.BROKER_URL }}
       RESULT_URL: ${{ secrets.RESULT_URL }}
       SOCIAL_AUTH_GITHUB_KEY: ${{ secrets.SOCIAL_AUTH_GITHUB_KEY }}
       SOCIAL_AUTH_GITHUB_SECRET: ${{ secrets.SOCIAL_AUTH_GITHUB_SECRET }}
-
+      GITHUB_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
     steps:
       - name: Checkout code
@@ -52,11 +43,27 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.x
+          python-version: 3.11
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run backend tests
         run: python manage.py test
+    
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: mydb
+          POSTGRES_HOST: localhost
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:6
+        ports:
+          - 6379:6379
 
