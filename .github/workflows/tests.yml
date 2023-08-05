@@ -52,12 +52,13 @@ jobs:
         run: python manage.py test
     
     services:
-      db:
+      postgres:
         image: postgres:latest
         env:
           POSTGRES_USER: myuser
           POSTGRES_PASSWORD: mypassword
           POSTGRES_DB: mydb
+          POSTGRES_HOST: db
         ports:
           - 5432:5432
 
