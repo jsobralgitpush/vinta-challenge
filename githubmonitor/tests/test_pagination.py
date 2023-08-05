@@ -5,21 +5,23 @@ from rest_framework.request import Request
 from githubmonitor.pagination import CustomPageNumberPagination
 from repositories.models import Commit, Repository
 from repositories.views import CommitListView
-
+from django.contrib.auth.models import User
 
 class CustomPageNumberPaginationTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.pagination = CustomPageNumberPagination()
         self.view = CommitListView.as_view()
-        self.repository = Repository.objects.create(name='Repo')
+        self.user = User.objects.create(username='user') #nosec
+        self.repository = Repository.objects.create(name='Repo', user=self.user)
 
         for i in range(50):
             Commit.objects.create(
                 author="Pedro",
                 message=f'Commit {i}',
                 date=timezone.now(),
-                repository=self.repository
+                repository=self.repository,
+                user= self.user
             )
 
     def test_pagination(self):
